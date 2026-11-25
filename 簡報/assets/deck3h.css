@@ -1,0 +1,31 @@
+/* 3 小時濃縮版補充版型：流程列、範例畫面、討論頁 */
+.flow{display:flex;align-items:stretch;gap:14px;margin-top:50px}
+.flow .fs{flex:1;background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px 22px;text-align:center}
+.flow .fs.red{border:3px solid var(--red);background:#fff5f5}
+.flow .fi{font-size:64px;line-height:1.1;margin-bottom:10px}
+.flow .fs h3{font-size:34px;margin:0 0 8px}
+.flow .fs p{font-size:25px;line-height:1.45;margin:0;color:var(--muted)}
+.flow .fa{align-self:center;font-size:54px;color:var(--soft)}
+.flow.f6 .fs h3{font-size:31px}
+.big1{font-size:40px!important;margin-top:56px!important;text-align:center}
+
+.ex{display:grid;grid-template-columns:1150px 1fr;gap:56px;align-items:center;margin-top:10px}
+.ex.tall{grid-template-columns:640px 1fr}
+.ex .exl{height:720px;display:flex;align-items:center;justify-content:center}
+.ex .exl img{max-width:100%;max-height:720px;object-fit:contain;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.14)}
+.ex .exr li{font-size:33px;line-height:1.5;margin-bottom:22px}
+.src{position:absolute;left:120px;bottom:34px;font-size:20px!important;color:var(--soft)!important;margin:0}
+
+.discslide .kick{font-size:26px;font-weight:700;color:var(--hue-ink);background:var(--hue-soft);margin-bottom:10px}
+.disc{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:28px;margin-top:34px}
+.disc .dc{border-radius:24px;padding:34px 36px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 40px -26px rgba(20,24,32,.3)}
+.disc .dc h3{font-size:38px;margin:0 0 14px}
+.disc .dc p{font-size:32px;line-height:1.55;margin:0;color:var(--ink)}
+.disc .tech{background:var(--teal-soft);border-color:var(--teal-soft)}
+.disc .ask{border:3px solid var(--red);background:#fff5f5}
+.disc .ask p{font-size:37px;font-weight:700}
+.dmin{position:absolute;left:120px;bottom:44px;font-size:24px!important;color:var(--muted)!important;margin:0}
+
+.flow .fi{color:var(--hue-ink)}
+.flow .fi .svgi{stroke-width:1.5}
+.flow .fs.red .fi{color:var(--red)}

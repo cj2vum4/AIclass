@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI 實戰營 3 小時講義</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* 版面：單欄講義，左側任務號碼、右側內容；prompt 用深色程式碼區塊＋複製鍵 */
+:root{
+  --paper:#fbfaf8; --ink:#1d2127; --muted:#5d6570; --rule:#e2e0dc; --accent:#c8161f; --accent-ink:#ffffff;
+  --code-bg:#15181d; --code-fg:#eef0f3; --mark:#ffd84d; --mark-ink:#15181d; --tip:#f3efe9; --ok:#1b7a45;
+  --display:"Noto Serif TC","Noto Sans TC",serif; --body:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",Consolas,"Noto Sans TC",monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#14171b; --ink:#e9ebee; --muted:#a2a9b3; --rule:#2b3036; --accent:#ff5a5f; --accent-ink:#14171b;
+  --code-bg:#0b0d10; --code-fg:#eef0f3; --mark:#ffd84d; --mark-ink:#15181d; --tip:#1d2126; --ok:#4cc783; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#14171b; --ink:#e9ebee; --muted:#a2a9b3; --rule:#2b3036; --accent:#ff5a5f; --accent-ink:#14171b;
+  --code-bg:#0b0d10; --code-fg:#eef0f3; --mark:#ffd84d; --mark-ink:#15181d; --tip:#1d2126; --ok:#4cc783; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 72px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--paper);border-bottom:1px solid var(--rule)}
+header .wrap{padding-block:12px}
+h1{font:700 1.45rem/1.3 var(--display);margin:0;text-wrap:balance}
+nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:4px;font-size:.92rem}
+nav a{color:var(--accent);text-decoration:none;font-weight:700}
+.task,.sess{scroll-margin-top:120px}
+nav a:focus-visible,.copy:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.intro{margin-top:20px;padding:12px 16px;background:var(--tip);border-radius:8px;color:var(--ink)}
+.sess{font:700 1.2rem/1.4 var(--display);margin:44px 0 0;padding-bottom:6px;border-bottom:3px solid var(--accent);color:var(--ink)}
+.task{display:grid;grid-template-columns:4.2em 1fr;gap:4px 14px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.no{font:700 1rem/1.4 var(--display);color:var(--accent);letter-spacing:.06em;padding-top:4px}
+.body{min-width:0}
+.task h3{font-size:1.18rem;margin:0 0 2px;text-wrap:balance}
+.goal{color:var(--muted);margin:0 0 6px}
+ol{margin:6px 0 10px;padding-left:1.3em}
+.pbox{position:relative;margin:10px 0}
+pre{margin:0;background:var(--code-bg);color:var(--code-fg);border-radius:10px;padding:46px 16px 16px;white-space:pre-wrap;word-break:break-word;
+  font:15px/1.75 var(--mono);overflow-x:auto}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:0 3px}
+.copy{position:absolute;right:10px;top:10px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:7px;padding:5px 14px;
+  font:700 .9rem var(--body);cursor:pointer}
+.copy.done{background:var(--ok)}
+.then{font-weight:700;margin:16px 0 4px}
+.tip{background:var(--tip);padding:8px 12px;border-radius:6px;margin-top:10px}
+ol.proc{padding-left:1.5em}
+ol.proc>li{margin:0 0 12px;padding-left:2px}
+ol.proc>li::marker{font-weight:700;color:var(--accent)}
+.see{display:block;color:var(--muted);font-size:.94rem}
+.who{display:inline-block;background:var(--accent);color:var(--accent-ink);font-size:.78rem;font-weight:700;border-radius:4px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.trouble{margin-top:12px;border:1px solid var(--rule);border-radius:8px;padding:8px 14px}
+.trouble summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.trouble dl{margin:8px 0 0}
+.trouble dt{font-weight:700;margin-top:8px}
+.trouble dd{margin:0;color:var(--ink)}
+.mins{display:inline-block;margin-left:10px;font:500 .82rem/1.6 var(--body);color:var(--muted);border:1px solid var(--rule);border-radius:999px;padding:0 10px;vertical-align:2px}
+.answer{border-left:4px solid var(--ok);background:var(--tip);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:10px}
+.answer ul{margin:4px 0;padding-left:1.2em}
+.answer small{color:var(--muted)}
+.prep{margin:22px 0 8px;padding:12px 16px;border:2px solid var(--accent);border-radius:10px}
+.prep h3{margin:0 0 6px;font-size:1.05rem;color:var(--accent)}
+.prep ul,.prep ol{margin:0;padding-left:1.3em}
+.prep small{display:block;margin-top:6px;color:var(--muted)}
+.prep.start{border-color:var(--ink)}
+.prep.start h3{color:var(--ink)}
+ul.check{list-style:"☐ ";}
+@media (max-width:520px){.task{grid-template-columns:1fr}.no{padding-top:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.disc{border:1px solid var(--rule);border-radius:10px;padding:10px 14px;margin:10px 0}
+.disc h4{margin:0 0 4px;font-size:1rem}
+.disc p{margin:2px 0}
+.sched{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95rem}
+.sched td:first-child,.sched th:first-child{white-space:nowrap}
+.sched td,.sched th{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+.dl{display:inline-block;margin-top:6px;font-weight:700;color:var(--accent)}
+</style>
+</head><body>
+<header><div class="wrap"><h1>一場訪談，AI 把年度計畫變成 LINE 裡的工作系統｜prompt</h1><nav><a href="#H1">任務一</a><a href="#H2">任務二</a><a href="#H3">任務三</a><a href="#H4">任務四</a></nav></div></header>
+<main class="wrap">
+<div class="intro">按「複製 prompt」，貼到 Claude 桌面版 Code 分頁的輸入框；<mark>黃色【】</mark>換成你自己的內容。</div>
+<section class="task" id="H1"><div class="no">任務一</div><div class="body"><h3>AI 訪談：把 OKR 問成一份規格書</h3><p class="goal">沒有自己的 OKR：<a class="dl" href="3H/青禾食品_OKR便利貼.jpg" download>下載青禾食品便利貼照片</a></p><div class="pbox"><button class="copy" data-for="H1a">複製 prompt</button><pre id="H1a">你是我的年度計畫顧問。請用訪談的方式，把我手上的 OKR 整理成一份「交給 AI 就能直接執行」的規格書。今天要做出的系統：Google 試算表年度工作計畫＋LINE 官方帳號提醒＋LINE 裡的操作畫面（LIFF）＋聊天室下方的圖文選單。
+
+我的資料：<mark>【把 OKR 檔案拖進對話框，或用 @ 選資料夾裡的檔案；也可以直接打字描述。沒有資料就寫「用青禾食品便利貼範例」】</mark>
+
+訪談規則：
+1. 先讀完我的資料，用 5 行以內說你看懂了什麼（公司或部門、幾個目標、幾個關鍵結果），以及還缺哪些資訊。
+2. 一次只問一題。能給選項就給選項讓我點選，並標出你建議的答案。我回答「你決定」時，採用你的建議，並記為「AI 假設」。
+3. 依序把每個目標問清楚：
+   - 驗收：怎樣算達成？要看的數字、期限、由誰確認、看哪份資料。
+   - 拆解：要做哪些任務（每個目標 3～6 項），每項的負責人（姓名＋職稱）、開始日、截止日、要交出的成果。
+   - 檢查點：每季要看到什麼進度。
+4. 再問提醒規則：截止前幾天開始提醒、每天幾點提醒、逾期怎麼處理。
+5. 最後問 LINE 的部分。預設如下，只問我要不要改：
+   - 四個畫面：我的任務（一鍵改進行中／已完成）、回報進度（完成度％＋一句備註）、進度總覽（只給管理者）、綁定身分（從名單點選自己是誰）
+   - 圖文選單 6 格：A 我的任務、B 回報進度、C 進度總覽、D 綁定身分、E 本週到期、F 使用說明（E、F 由機器人直接回覆文字）
+   - 誰是管理者、選單主色（可用公司品牌色）
+6. 整場最多 15 題、約 25 分鐘；資料夠了就提早結束。不要問資料裡已經有、或我已經回答過的事。
+7. 資料裡有身分證號、電話、薪資、客戶個資等敏感內容時，提醒我，並在規格書中省略。
+
+訪談結束後：
+A. 在目前資料夾建立「年度計畫規格書.md」，依序包含：
+   1. 計畫摘要：公司或部門、計畫年度、負責主管
+   2. 目標與驗收表：目標編號、目標、關鍵結果、驗收方式、確認人、期限
+   3. 任務清單表：任務編號、所屬目標、任務名稱、負責人、開始日、截止日、交付成果、狀態
+      （日期一律寫成 yyyy/mm/dd，狀態一律填「未開始」，負責人名稱前後一致）
+   4. 人員名單：姓名、職稱、部門（之後用來綁定 LINE）
+   5. 提醒規則
+   6. LINE 畫面與權限：每個畫面的用途與顯示欄位；誰能看什麼、誰能改什麼；誰是管理者
+   7. 圖文選單：A～F 每格的名稱、副標、顏色、動作；E、F 要回覆的文字
+   8. AI 假設與待確認事項
+B. 在對話中用表格秀出任務清單和選單 6 格，並告訴我：幾個目標、幾項任務、幾位負責人、幾個 AI 假設。
+C. 到這裡就停：除了規格書，不要建立試算表、Excel 或任何檔案，不要寫程式、不要操作瀏覽器。也不要問我「確認後要不要開始做」；請告訴我：規格書確認或修改好之後，貼上任務三的執行 prompt 才會開始建置。
+
+請用繁體中文（台灣用語）。</pre></div><p class="then">訪談中斷或關掉視窗時，貼這段接續：</p><div class="pbox"><button class="copy" data-for="H1m0">複製 prompt</button><pre id="H1m0">剛才的訪談中斷了。請讀取目前資料夾的「年度計畫規格書.md」（如果有）和我放在資料夾裡的 OKR 資料，告訴我已經問清楚哪些、還缺哪些，然後從缺的地方接著訪談。規則和剛才一樣：一次一題、最多再問 8 題，結束後更新規格書並用表格秀出任務清單。</pre></div></div></section><section class="task" id="H2"><div class="no">任務二</div><div class="body"><h3>拍板規格書：主管做決定</h3><div class="pbox"><button class="copy" data-for="H2a">複製 prompt</button><pre id="H2a">請修改「年度計畫規格書.md」：<mark>【寫下要改的地方，例如：任務 T05 的負責人改成 陳經理；目標二的驗收改成 第三季營收成長 15%】</mark>
+改完只回報改了哪幾列，並再確認一次：每項任務都有負責人、開始日、截止日，日期都是 yyyy/mm/dd。</pre></div><p class="then">選做：</p><div class="pbox"><button class="copy" data-for="H2b">複製第二段</button><pre id="H2b">請扮演一位很挑剔的董事長，看完「年度計畫規格書.md」後，指出這份計畫最可能失敗的 3 個地方（例如驗收標準量不出來、一個人負責太多、時間排太擠），每點一句話並建議怎麼改。先不要修改檔案。</pre></div></div></section><section class="task" id="H3"><div class="no">任務三</div><div class="body"><h3>AI 一次做完：試算表、提醒、LINE 畫面、圖文選單</h3><div class="pbox"><button class="copy" data-for="H3a">複製 prompt</button><pre id="H3a">請讀取目前資料夾的「年度計畫規格書.md」，把它做成一套在 LINE 裡就能用的年度工作計畫系統。先把我這段指示原文存成「執行指示.md」，再開始工作；每完成一個階段，更新「執行紀錄.md」並用一句話告訴我現在在做什麼。全程只用這個 App 的內建瀏覽器操作網頁。
+
+要完成的成果：
+1. Google 試算表「<mark>【公司或部門名稱】</mark>年度工作計畫」：目標與驗收、任務清單（多加 LINE 最後提醒、完成度、最新備註、最後更新 4 欄；狀態下拉選單 未開始／進行中／已完成／延誤；日期是真正的日期格式 yyyy/mm/dd；凍結標題列並加篩選）、每位負責人一個分頁（FILTER 自動帶出）、通訊錄（姓名、職稱、LINE user ID、綁定時間）、使用說明。
+2. LINE 官方帳號「<mark>【官方帳號名稱】</mark>」：啟用 Messaging API；每天依提醒規則推播給負責人；聊天室下方有 6 格圖文選單。
+3. LINE 裡的操作畫面（LIFF）：依規格書第 6 節，一個 index.html，底部分頁切換，網址的 ?view=tasks|report|overview|bind 決定開哪一頁；還沒綁定時引導去綁定。
+
+架構（已實測可行，請照做）：
+- 後端：一個獨立的 Apps Script 專案（在內建瀏覽器前往 script.new 建立，不要從試算表的「擴充功能」開，它會開新視窗被擋），專案名稱「<mark>【公司或部門名稱】</mark>計畫自動化」。
+- Code.gs 一次寫完，包含：
+  (a) setupSheet：第一次執行時用 SpreadsheetApp.create 建立試算表並把 ID 存進指令碼屬性 SHEET_ID，建立所有分頁、資料、格式；重跑時沿用同一份。
+  (b) doGet：回傳 JSON 的 API，給 LIFF 用。每個動作都先用 https://api.line.me/oauth2/v2.1/verify（參數 id_token 和 client_id＝指令碼屬性 LOGIN_CHANNEL_ID）驗證身分，再對照通訊錄。動作：names（名單與是否已綁定）、bind（綁定；換綁時清掉同一個 LINE 帳號在其他名字的綁定；第一位綁定的人記為管理者）、me（我的任務）、update（改狀態、完成度、備註；只能改自己的任務，管理者例外）、overview（只給管理者）。
+  (c) doPost：LINE Webhook，處理選單的文字按鈕（E、F）並直接回覆。
+  (d) dailyReminder：依提醒規則，把即將到期與已逾期、且不是「已完成」的任務依負責人推播；沒綁定的人彙整後通知管理者；寫入「LINE 最後提醒」。
+  (e) testReminder：推播一則測試提醒給所有已綁定的人。
+  (f) setupTrigger：建立 dailyReminder 每天觸發，不重複建立。
+  LINE token 只從指令碼屬性 LINE_TOKEN 讀；LINE Login channel ID 從 LOGIN_CHANNEL_ID 讀；LIFF ID 從 LIFF_ID 讀（使用說明裡要附 LIFF 網址）。這些都不寫死在程式裡，所以程式只要貼一次。
+- 前端：index.html 放在 GitHub Pages（公開 repo「<mark>【英文 repo 名稱，例如 qinghe-liff】</mark>」），網址是 https://帳號（小寫）.github.io/repo名稱/。Apps Script 不能直接當 LIFF 網頁主機（頁面會包在 iframe 裡，liff.init 不會回應），不要嘗試。
+- 部署：網頁應用程式（執行身分：我；誰可以存取：所有人），同一個網址同時是 LIFF 的 API 和 LINE 的 Webhook。之後若要更新，用「管理部署作業 → 編輯 → 建立新版本」，網址不變；不要用「新增部署作業」。
+
+請依這個順序做（每一步要用到前一步的結果）：
+1. 寫好 Code.gs → 開 script.new、改專案名稱 → 請我貼上程式 → 執行 setupSheet（Google 授權）→ 確認試算表。
+2. 建立官方帳號並啟用 Messaging API（服務提供者用公司名稱新建）→ 請我發 Channel access token 並貼到指令碼屬性 LINE_TOKEN。
+3. 部署網頁應用程式 → 把網址設成 Webhook URL、開啟 Use webhook、官方帳號回應設定關閉「自動回應訊息」和「加入好友的歡迎訊息」→ 執行 setupTrigger。
+4. 在 GitHub 建立 repo（先確認這個名稱還沒用過，用過就在後面加 -2；先決定 Pages 網址）。
+5. 在 LINE Developers、官方帳號同一個服務提供者底下，建立 LINE Login channel（地區 Taiwan、App types 勾 Web app、關閉 Require two-factor authentication）→ LIFF 分頁新增 LIFF app（Size Full、Scopes 勾 openid 和 profile、Add friend option 選 Off、Endpoint URL＝GitHub Pages 網址）→ 按 Add 後打開這個 LIFF 的詳情頁核對：Scopes 要顯示 openid, profile、Endpoint URL 正確，少了就按 Edit 補上 → 把 channel ID、LIFF ID 寫進指令碼屬性 LOGIN_CHANNEL_ID、LIFF_ID。
+6. 寫好 index.html（填入 LIFF ID 與 API 網址）→ 請我貼進 GitHub 新檔案 → Commit → Settings → Pages → Branch main、(root) → Save，確認網址可開（約 1 分鐘）。
+7. 圖文選單：依規格書第 7 節設計 6 格（大型 2500×1686），寫成 richmenu.html，用這台電腦內建的瀏覽器引擎轉成 PNG（Windows 用 Edge headless、Mac 用 Chrome headless，另外指定一個暫存的使用者資料夾），不要另外安裝套件，圖檔要小於 1MB → 官方帳號後台 → 圖文選單 → 建立：標題、使用期間（開始日與結束日都用日曆點選；欄位只顯示灰色提示字代表還是空的；結束日設在計畫年底）、版型「大 6 格」、請我上傳圖片、A～D 動作「連結」到 https://liff.line.me/LIFF ID?view=…、E～F 動作「文字」、儲存。
+8. 請我用手機掃 QR Code 加好友，點選單「綁定身分」選自己的名字 → 問我要不要執行 testReminder，我同意後只執行一次。
+
+做法要求：
+- 程式先寫在資料夾（Code.gs、index.html），用指令放進剪貼簿（中文不能變亂碼），請我本人貼上；你不要在編輯器打字或按 Ctrl+V。
+- 試算表內容由 setupSheet 一次建立，不要在儲存格逐格打字。
+- 表單的勾選框、選項、開關一律用真實點擊，不要用程式改；儲存後回頭核對有沒有真的存進去。
+- 網頁上的連結如果會開新分頁，改用網址直接前往同一個分頁（例如建立官方帳號：https://entry.line.biz/form/entry/unverified）。
+- Apps Script 選函式前先確認下拉選單已經展開，再用方向鍵＋Enter；按「執行」前確認選到的函式名稱。絕對不要執行 dailyReminder；testReminder 只在我同意後執行一次。
+- 內建瀏覽器很窄時，請我把瀏覽器窗格拉寬。
+- 遇到下列步驟一律停下來，用「⏸ 請你本人操作：」開頭告訴我要點哪裡，等我回覆「好了」才繼續：
+  ① 在 Apps Script 或 GitHub 編輯器貼上程式（點編輯區 → Ctrl+A → Ctrl+V；Apps Script 再按 Ctrl+S）；
+  ② Google 授權彈出視窗（選帳號 → 進階 → 前往 → 允許），你無法操作彈出視窗；
+  ③ 登入任何網站、輸入密碼或驗證碼；
+  ④ 建立官方帳號、LINE Login channel：表單由你填好，按「確定」「完成」「Create」和勾選同意條款由我做；
+  ⑤ 同意條款：資訊使用同意、Messaging API 服務條款；
+  ⑥ Channel access token 按「Issue」並複製；你先在 Apps Script「專案設定 → 指令碼屬性」新增一列、名稱填 LINE_TOKEN，值由我貼上並儲存；
+  ⑦ 圖文選單「上傳圖片並套用」的檔案視窗（告訴我圖檔的完整路徑）；
+  ⑧ 用手機加好友、綁定、測試。
+- 你不要讀取、複製、顯示或貼上 token；Webhook 的 Verify 顯示 302 是 Apps Script 轉址造成的，以手機實際操作的結果為準。
+- 不要刪除任何既有的檔案、試算表、專案、官方帳號、repo 或選單。
+- 同一個問題試 2 次還不行，就停下來說明狀況和建議，不要一直重試。
+
+全部完成後，用表格回報：試算表網址、官方帳號名稱、GitHub Pages 網址、LIFF URL、每日提醒時間、圖文選單使用期間、已綁定人數、testReminder 結果；再列出還沒完成或需要我確認的事，以及手機測試清單（6 格各點一次應看到什麼）。請用繁體中文（台灣用語）。</pre></div><p class="then">執行中斷、額度用完或關掉視窗時，開新對話（同一個資料夾）貼這段接續：</p><div class="pbox"><button class="copy" data-for="H3m0">複製 prompt</button><pre id="H3m0">剛才的執行中斷了。請讀取目前資料夾的「執行指示.md」「執行紀錄.md」和「年度計畫規格書.md」，先用 3 行說明已完成到哪裡，再從第一個還沒完成的步驟接著做。規則和「執行指示.md」完全相同；已經建好的試算表、專案、官方帳號、repo、LIFF、選單直接沿用，不要重建。</pre></div></div></section><section class="task" id="H4"><div class="no">任務四</div><div class="body"><h3>手機驗收：六格選單逐一點</h3><div class="pbox"><button class="copy" data-for="H4a">複製 prompt</button><pre id="H4a">請逐項驗收剛才完成的系統。這一步只檢查、不要修改，也不要執行會發送 LINE 的函式。
+1. 試算表的目標數、任務數、負責人數，和「年度計畫規格書.md」一致；狀態是下拉選單、日期是日期格式；每位負責人分頁有資料。
+2. Apps Script：觸發條件只有一個 dailyReminder；指令碼屬性有 SHEET_ID、LINE_TOKEN、LOGIN_CHANNEL_ID、LIFF_ID；程式碼裡沒有出現 token。
+3. API：不帶參數開部署網址會回應正常；帶假的 idToken 會回驗證失敗。
+4. GitHub Pages 網址可以開啟；index.html 的 LIFF ID 和 API 網址正確；LIFF 的 Endpoint URL 等於 GitHub Pages 網址。
+5. 圖文選單是「目前顯示的選單」，6 格動作和規格書一致，使用期間包含今天。
+6. 通訊錄已綁定幾人、誰還沒綁定。
+用表格回報：項目／結果（通過、未通過）／證據。未通過的項目提出修正建議，等我同意再改。最後列出我要用手機做的 6 個測試。</pre></div><p class="then">要讓同事也能用 LINE 裡的畫面時，貼這段（會先說明再等你同意）：</p><div class="pbox"><button class="copy" data-for="H4m0">複製 prompt</button><pre id="H4m0">請幫我把 LINE 裡的操作畫面開放給同事使用：到 LINE Developers 的 LINE Login channel，把狀態從「Developing」改成「Published」。改之前先說明 Published 代表什麼、會不會影響現有設定，等我同意再按。改完提醒我：綁定是從名單點選名字、沒有密碼，請同事當天就加好友綁定，我再到通訊錄核對每個名字綁的是不是本人。</pre></div><p class="then">課後想停掉每日 LINE 提醒時，貼這段：</p><div class="pbox"><button class="copy" data-for="H4m1">複製 prompt</button><pre id="H4m1">請幫我停用每日 LINE 提醒：打開 Apps Script 專案「<mark>【公司或部門名稱】</mark>計畫自動化」→「觸發條件」，刪除 dailyReminder 的觸發。只刪觸發，不要刪除程式、試算表或官方帳號。刪除前先告訴我要刪哪一個，等我同意。</pre></div></div></section>
+</main>
+<script>
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var pre=document.getElementById(b.dataset.for), t=pre.innerText, label=b.textContent;
+  function ok(){b.textContent='已複製 ✓';b.classList.add('done');setTimeout(function(){b.textContent=label;b.classList.remove('done')},1600)}
+  function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);
+    try{if(document.execCommand('copy'))ok();else b.textContent='已選取，請手動複製'}catch(e){b.textContent='已選取，請手動複製'}}
+  try{navigator.clipboard.writeText(t).then(ok,fallback)}catch(e){fallback()}
+})});
+</script>
+</body></html>

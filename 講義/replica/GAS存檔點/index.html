@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  :root{--ink:#1d2433;--muted:#6b7385;--line:#e4e7ee;--brand:#1f6feb;--ok:#1a7f4b;--bg:#f5f7fb;--card:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Noto Sans TC","Microsoft JhengHei",sans-serif}
+  header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 20px;position:sticky;top:0}
+  h1{font-size:20px;margin:0 0 10px}
+  select{font-size:17px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;width:100%;max-width:360px}
+  main{padding:16px 20px;max-width:760px}
+  .task{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 12px}
+  .task.done{opacity:.6}
+  .name{font-weight:700;font-size:18px}
+  .meta{color:var(--muted);font-size:14px;margin:2px 0 10px}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  label{display:flex;gap:6px;align-items:center;cursor:pointer}
+  input[type=checkbox]{width:22px;height:22px}
+  input[type=range]{flex:1;min-width:140px}
+  button{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:8px 16px;font-size:16px;cursor:pointer}
+  button:disabled{background:#9db8e8}
+  .msg{color:var(--ok);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <h1>年度計畫操作入口</h1>
+  <select id="owner"><option>載入中…</option></select>
+</header>
+<main id="list"></main>
+<script>
+  const $ = (s) => document.querySelector(s);
+  google.script.run.withSuccessHandler((owners) => {
+    $('#owner').innerHTML = '<option value="">請選擇負責人</option>' +
+      owners.map((o) => `<option>${o}</option>`).join('');
+  }).getOwners();
+  $('#owner').onchange = () => load($('#owner').value);
+
+  function load(owner) {
+    if (!owner) { $('#list').innerHTML = ''; return; }
+    $('#list').innerHTML = '載入中…';
+    google.script.run.withSuccessHandler(render).getTasksFor(owner);
+  }
+
+  function render(tasks) {
+    $('#list').innerHTML = tasks.map((t) => `
+      <div class="task ${t.status === '已完成' ? 'done' : ''}" data-row="${t.row}">
+        <div class="name">${t.name}</div>
+        <div class="meta">${t.dept}｜截止 ${t.end}｜${t.status}</div>
+        <div class="row">
+          <label><input type="checkbox" ${t.status === '已完成' ? 'checked' : ''}> 已完成</label>
+          <input type="range" min="0" max="100" step="10" value="${t.pct}">
+          <span class="pct">${t.pct}%</span>
+          <button>儲存</button>
+          <span class="msg"></span>
+        </div>
+      </div>`).join('') || '<p>目前沒有任務</p>';
+    document.querySelectorAll('.task').forEach((el) => {
+      const range = el.querySelector('input[type=range]');
+      const box = el.querySelector('input[type=checkbox]');
+      range.oninput = () => { el.querySelector('.pct').textContent = range.value + '%'; };
+      box.onchange = () => { if (box.checked) { range.value = 100; range.oninput(); } };
+      el.querySelector('button').onclick = (ev) => {
+        const btn = ev.target; btn.disabled = true;
+        const status = box.checked ? '已完成' : (range.value > 0 ? '進行中' : '未開始');
+        google.script.run.withSuccessHandler(() => {
+          btn.disabled = false; el.querySelector('.msg').textContent = '已儲存並同步日曆';
+          el.classList.toggle('done', status === '已完成');
+        }).saveTask(Number(el.dataset.row), status, Number(range.value));
+      };
+    });
+  }
+</script>
+</body>
+</html>
