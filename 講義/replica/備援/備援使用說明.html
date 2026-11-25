@@ -1,0 +1,25 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>備援使用說明（給講師與助教）</title><style>
+:root{--bg:#fbfaf8;--fg:#1d2127;--muted:#5d6570;--line:#e2e0dc;--accent:#2456c7;--code:#f1efea}
+@media (prefers-color-scheme:dark){:root{--bg:#14171b;--fg:#e9ebee;--muted:#a2a9b3;--line:#2b3036;--accent:#8fb4ff;--code:#1d2126;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.8 "Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px max(18px,env(safe-area-inset-left)) 64px}
+nav{font-size:15px;margin-bottom:18px}nav a,main a{color:var(--accent)}
+h1{font-size:30px;line-height:1.3}h2{font-size:22px;margin-top:32px;border-top:1px solid var(--line);padding-top:18px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+code{background:var(--code);padding:1px 5px;border-radius:4px}pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto}
+li{margin:4px 0}.chk{list-style:none;padding-left:4px}.chk li::before{content:"☐ ";color:var(--muted)}
+</style></head><body><main><nav><a href="../index.html">← 同事復刻入口</a>　·　<a href="../../講義.html">四場版講義</a></nav><h1>備援使用說明（給講師與助教）</h1>
+<p>2026-11-11 製作。用途：某組卡住、且會影響必保成果（手機操作入口、每組至少一位收到 LINE）時，讓該組從下一個任務接續。</p>
+<h2>使用原則</h2>
+<ul><li>卡住 3 分鐘以上，由助教先判斷原因；確定來不及才用備援。</li><li>用了備援的組別，在交接紀錄標記「該階段未獨立完成」。不冒充現場成功，也不拿備援畫面當作學員成果。</li><li>換上前先保存原本的內容：試算表不刪；Apps Script 原程式全選複製，貼到另一個新檔「原程式_備份.gs」。</li><li>登入、授權、部署、金鑰、發送 LINE 仍由帳號本人操作，助教不代按。</li></ul>
+<h2>落後在哪裡、用哪一份</h2>
+<table><tr><th>落後的任務</th><th>用這份</th><th>換上後接續</th></tr><tr><td>任務二～五（照片、建表、修正、檢查）</td><td><code>備援/青禾食品_2027年度計畫_備援.xlsx</code></td><td>第二天任務六（或當天任務五的驗收）</td></tr><tr><td>任務六、七（日曆同步）</td><td><code>GAS存檔點/分段/存檔點A_任務六、七_日曆同步.gs</code></td><td>任務八</td></tr><tr><td>任務八（觸發）</td><td><code>存檔點B_任務八_觸發.gs</code></td><td>任務九</td></tr><tr><td>任務九、十（操作入口）</td><td><code>存檔點C_任務九、十_操作入口.gs</code> ＋ <code>GAS存檔點/index.html</code></td><td>任務十一、十二</td></tr><tr><td>任務十二、十三（LINE 測試與綁定）</td><td><code>存檔點D_任務十二、十三_LINE測試與綁定.gs</code></td><td>任務十四</td></tr><tr><td>任務十四（每日提醒）</td><td><code>存檔點E_任務十四_完整版.gs</code></td><td>全流程回看</td></tr></table>
+<p>每一份存檔點都包含前面所有段落，所以只要換上落後那一段就好，不用一段一段疊加。</p>
+<h2>匯入備援試算表（本人操作，約 5 分鐘）</h2>
+<ol><li>打開任務一建立的課程資料夾，按「新增 → 檔案上傳」，選 <code>青禾食品_2027年度計畫_備援.xlsx</code>。</li><li>雙擊打開上傳的檔案，按「檔案 → 另存為 Google 試算表」。</li><li>把新的 Google 試算表改名為「【公司名稱】2027年度計畫」。專屬日曆會沿用這個檔名。</li><li>核對「任務清單」：9 筆任務、11 個欄位，日期顯示為 2027/03/31 格式，狀態欄有下拉選單。</li><li>部門分頁如果顯示錯誤，不影響第二天的程式（程式只讀「任務清單」）。可以請 Claude 依講義任務三，把部門分頁改用 FILTER 公式重建。</li><li>原本的 .xlsx 檔留著也沒關係；之後的操作都用另存出來的 Google 試算表。</li></ol>
+<h2>換上 Apps Script 存檔點（本人操作，約 5–10 分鐘）</h2>
+<ol><li>從本組試算表按「擴充功能 → Apps Script」，確認左上專案名稱是本組的專案。</li><li>保存原程式：原本的程式碼全選、複製，新增一個檔案「原程式_備份.gs」貼上。</li><li>點左側鬧鐘圖示「觸發條件」，把舊的觸發逐列按「⋮ → 刪除觸發條件」。避免舊觸發指向已經不存在的函式。</li><li>打開「程式碼.gs」，按 Ctrl＋A 全選後貼上存檔點全文，再按 Ctrl＋S 儲存。</li><li>存檔點 C 以後：左側「＋ → HTML」，名稱填 <code>index</code>，貼上 <code>GAS存檔點/index.html</code> 全文後儲存（已有 index 就整份取代）。</li><li>函式選單選 syncToCalendar →「執行」，依講義任務七完成授權。</li><li>存檔點 B 以後：再執行一次 setupTriggers。存檔點 E 會多建立每天 8 點的 LINE 提醒；本人還沒設好 LINE_TOKEN、MY_USER_ID 時，先不要執行。</li><li>已經部署過的網頁（操作入口、LINE Webhook）：「部署 → 管理部署作業 → 編輯 → 版本：建立新版本 → 部署」，網址不變。還沒部署的照講義任務九、十三部署。</li><li>照講義該任務的「驗收」與「標準答案」核對結果。</li></ol>
+<h2>存檔點和學員現場程式的差異</h2>
+<ul><li>編輯觸發函式名稱是 onTaskEdit（10/18 實測時 Claude 寫的是 onTaskStatusEdit），所以要先刪舊觸發。</li><li>操作入口是範本介面，沒有任務十的 Skill 美化；功能相同：選負責人、打勾或拖完成度、儲存。</li><li>綁定成功的回覆多一行「之後的任務提醒會傳到這裡。」</li><li>存檔點 B～D 的 setupTriggers 只建立 2 個觸發；E 會建立 3 個（多了每天 8 點 LINE 提醒）。</li></ul>
+<h2>驗證狀態（不要說成已全部實測）</h2>
+<ul><li>完整版 <code>GAS存檔點/Code.gs</code>：2026-09-30 在舊示範專案實際運作，包含每天 8 點推播。</li><li>分段存檔點 A～E：從完整版依段落裁切，已通過靜態檢查（node 語法檢查、內部函式與觸發函式都有定義），<b>沒有逐段在 Apps Script 實機執行</b>。</li><li>備援試算表：依 2026-10-18 新版實測的最終內容重建，<b>不是原檔匯出，也還沒實際匯入 Google 試算表驗證</b>；部門分頁的 FILTER 公式在匯入後是否正常也未確認。</li><li>建議課前由助教用測試帳號各跑一次：匯入試算表 → 換上存檔點 A → 執行同步；再換上 C 部署一次。</li><li>重新產生：<code>_tools/build_backups.py</code>。</li></ul></main></body></html>

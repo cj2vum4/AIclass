@@ -1,0 +1,19 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>給沒上過課的同事</title><style>
+:root{--bg:#fbfaf8;--fg:#1d2127;--muted:#5d6570;--line:#e2e0dc;--accent:#2456c7;--code:#f1efea}
+@media (prefers-color-scheme:dark){:root{--bg:#14171b;--fg:#e9ebee;--muted:#a2a9b3;--line:#2b3036;--accent:#8fb4ff;--code:#1d2126;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.8 "Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px max(18px,env(safe-area-inset-left)) 64px}
+nav{font-size:15px;margin-bottom:18px}nav a,main a{color:var(--accent)}
+h1{font-size:30px;line-height:1.3}h2{font-size:22px;margin-top:32px;border-top:1px solid var(--line);padding-top:18px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+code{background:var(--code);padding:1px 5px;border-radius:4px}pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto}
+li{margin:4px 0}.chk{list-style:none;padding-left:4px}.chk li::before{content:"☐ ";color:var(--muted)}
+</style></head><body><main><nav><a href="index.html">← 同事復刻入口</a>　·　<a href="../講義.html">四場版講義</a></nav><h1>給沒上過課的同事</h1>
+<p>目標：用虛構範例重現「便利貼→試算表→日曆→手機更新→LINE提醒」。不需先聽老闆重新講課。</p>
+<ol><li>先開 <a href="index.html">index.html</a>，勾選課前checklist。使用自己的核准帳號，不交接密碼或金鑰。</li><li>用便利貼照片配合 <a href="tasks.html">tasks.html</a> 的T01–T05整理建表。每階段有一個完整prompt；本人授權與金鑰操作不包含在AI代辦內。</li><li>T06–T10建立同步、觸發與手機入口；T11–T14完成提醒。未成功項記待查，不能用範例截圖當成自己的驗收證據。</li><li>每階段在交接紀錄.csv填成果網址、驗收結果、未完成項與下一步。只填課程資源，不填token或user ID。</li><li>卡住先把錯誤去敏後交給AI，要求只修正本任務，不刪資料、不改其他功能。助教先排查帳號、權限、資料與函式選擇。</li><li>GAS存檔點是完整程式範本，不是已部署成品。Code.gs與index.html需放入自己試算表的Apps Script；必須確認欄位、授權、部署與指令碼屬性。</li><li>存檔點setupTriggers會建立日曆同步、編輯連動及LINE提醒三項觸發；LINE尚未設定完成時不要執行。本人核對後再啟用。</li><li>正式公司使用需確認權限、身分綁定與Webhook來源驗證；課程公開Webhook只用於受控虛構測試。</li></ol>
+<h2>最低成功條件</h2>
+<ul><li>試算表資料與輸入一致，待確認資料有標記。</li><li>專屬日曆有正確事件，重跑不重複。</li><li>本人手機可開入口並儲存；表格與日曆同步。</li><li>至少一位自願接收者實際收到正確提醒。</li><li>已完成與超過7天的任務不提醒；7天內含逾期提醒；未綁定交給擁有人。</li></ul>
+<h2>可替換與應保留</h2>
+<p>可以替換：公司名稱、工作內容、部門、角色、日期、案例目標。</p>
+<p>先保留：任務編號、欄位名稱、狀態選項、資料分頁與函式介面。需要改結構時，應同步修改程式並重新驗收。</p>
+<p>成功復刻後再選一件公司工作討論應用。不設定七天期限，不要求講師課後追蹤。</p></main></body></html>
